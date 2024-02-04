@@ -46,7 +46,7 @@ jobs:
           repo: https://github.com/anudeepND/whitelist.git
           tag: '^v(.+).(.+)$'
 
-      - name: Save latest OCS git tag to file in repo
+      - name: Save latest Pi-Hole Whitelist git tag to file in repo
         run: |
           echo "${{ steps.whitelist-version.outputs.tag }}" > .whitelist-version
 
