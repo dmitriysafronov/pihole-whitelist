@@ -11,7 +11,7 @@ RUN set -x \
 		&& cd /tmp \
 		&& curl -SL --connect-timeout 8 --max-time 120 --retry 128 --retry-delay 5 "https://github.com/anudeepND/whitelist/archive/refs/tags/${WHITELIST_VERSION}.tar.gz" -o whitelist.tar.gz \
 		&& mkdir -p /tmp/whitelist \
-		&& tar -xf whitelist.tar.gz -C /opt/whitelist --strip-components=1 \
+		&& tar -xf whitelist.tar.gz -C /tmp/whitelist --strip-components=1 \
 		&& rm -rf /tmp/whitelist.tar.gz
 
 ############################################################
