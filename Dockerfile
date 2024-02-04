@@ -1,4 +1,4 @@
-FROM ubuntu AS builder-sources
+FROM ubuntu AS sources
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -34,6 +34,6 @@ RUN set -ex && \
 
 COPY ./cron.daily /etc/cron.daily/whitelist
 
-COPY --from=git /opt/whitelist/ /opt/whitelist/
+COPY --from=sources /opt/whitelist/ /opt/whitelist/
 
 RUN chmod a+x /opt/whitelist/scripts/whitelist.py /etc/cron.daily/whitelist
