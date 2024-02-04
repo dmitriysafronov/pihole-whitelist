@@ -31,7 +31,7 @@ jobs:
         id: pihole-version
         with:
           image: pi-hole/pihole
-          tag: '$[0-9]{1,}.[0-9]{1,}'
+          tag: '^[0-9]{1,}.[0-9]{1,}'
 
       - name: Save latest Pi-Hole docker tag to file in repo
         run: |
