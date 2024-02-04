@@ -2,16 +2,7 @@ ARG PIHOLE_VERSION=2024.01.0
 
 ############################################################
 
-FROM ubuntu AS sources
-
-ARG DEBIAN_FRONTEND=noninteractive
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-RUN set -x \
-		&& apt-get update && apt-get install -y \
-			curl \
-		&& rm -rf /var/lib/apt/lists/*
+FROM curlimages/curl AS sources
 
 ARG WHITELIST_VERSION=v2.0.1
 
