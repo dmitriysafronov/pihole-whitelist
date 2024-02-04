@@ -35,16 +35,14 @@ jobs:
 
       - name: Save latest Pi-Hole docker tag to file in repo
         run: |
-          PIHOLE_VERSION="$(echo ${{ steps.pihole-version.outputs.tag }} | cut -s -d '-' -f 2)"
-          echo "$PIHOLE_VERSION" > .pihole-version
-          echo "PIHOLE_VERSION=$PIHOLE_VERSION" >> $GITHUB_ENV
+          echo "${{ steps.pihole-version.outputs.tag }}" > .pihole-version
 
       - name: Get latest Pi-Hole Whitelist git tag
         uses: dmitriysafronov/find-latest-tag@v1.0.0
         id: whitelist-version
         with:
           repo: https://github.com/anudeepND/whitelist.git
-          tag: '^v(.+).(.+)$'
+          tag: '^v(.+).(.+).(.+)$'
 
       - name: Save latest Pi-Hole Whitelist git tag to file in repo
         run: |
