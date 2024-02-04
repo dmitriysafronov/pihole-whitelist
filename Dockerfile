@@ -1,3 +1,7 @@
+ARG PIHOLE_VERSION=2024.01.0
+
+############################################################
+
 FROM ubuntu AS sources
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -20,9 +24,7 @@ RUN set -x \
 
 ############################################################
 
-ARG PIHOLE_VERSION=2024.01.0
-
-FROM ghcr.io/pi-hole/pihole:${PIHOLE_VERSION}
+FROM ghcr.io/pi-hole/pihole:${PIHOLE_VERSION} AS runtime
 
 RUN set -ex && \
     apt-get update -y && apt-get install --no-install-recommends --no-install-suggests -y \
