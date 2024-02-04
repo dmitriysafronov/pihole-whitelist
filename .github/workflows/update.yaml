@@ -53,5 +53,5 @@ jobs:
       - name: Commit all changed files back to the repository
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Automated Update. Docker: ${{ env.UBUNTU_CODENAME }}, Git: ${{ steps.whitelist-version.outputs.tag }}"
+          commit_message: "Automated Update. Docker: ${{ steps.pihole-version.outputs.tag }}, Git: ${{ steps.whitelist-version.outputs.tag }}"
           file_pattern: '.whitelist-version .pihole-version'
