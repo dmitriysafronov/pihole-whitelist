@@ -7,11 +7,12 @@ FROM curlimages/curl AS sources
 ARG WHITELIST_VERSION=v2.0.1
 
 RUN set -x \
+		&& rm -rf /tmp/* \
 		&& cd /tmp \
 		&& curl -SL --connect-timeout 8 --max-time 120 --retry 128 --retry-delay 5 "https://github.com/anudeepND/whitelist/archive/refs/tags/${WHITELIST_VERSION}.tar.gz" -o whitelist.tar.gz \
-		&& mkdir -p /opt/whitelist \
+		&& mkdir -p /tmp/whitelist \
 		&& tar -xf whitelist.tar.gz -C /opt/whitelist --strip-components=1 \
-		&& rm -rf /tmp/*
+		&& rm -rf /tmp/whitelist.tar.gz
 
 ############################################################
 
@@ -27,6 +28,6 @@ RUN set -ex && \
 
 COPY ./cron.daily /etc/cron.daily/whitelist
 
-COPY --from=sources /opt/whitelist/ /opt/whitelist/
+COPY --from=sources /tmp/whitelist/ /opt/whitelist/
 
 RUN chmod a+x /opt/whitelist/scripts/whitelist.py /etc/cron.daily/whitelist
