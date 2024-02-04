@@ -1,0 +1,6 @@
+.git/
+.github/
+.gitignore
+.pihole-version
+.whitelist-version
+README.md

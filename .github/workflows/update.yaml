@@ -1,0 +1,57 @@
+name: Update
+
+"on": 
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+
+  update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+
+    steps:
+
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+
+      - name: Install jq
+        uses: dcarbone/install-jq-action@v2.1.0
+
+      - name: Get latest Pi-Hole docker tag
+        uses: ./.github/actions/get-latest-docker-tag
+        id: pihole-version
+        with:
+          image: pi-hole/pihole
+          tag: '^(.+).(.+)$'
+
+      - name: Save latest Pi-Hole docker tag to file in repo
+        run: |
+          PIHOLE_VERSION="$(echo ${{ steps.pihole-version.outputs.tag }} | cut -s -d '-' -f 2)"
+          echo "$PIHOLE_VERSION" > .pihole-version
+          echo "PIHOLE_VERSION=$PIHOLE_VERSION" >> $GITHUB_ENV
+
+      - name: Get latest Pi-Hole Whitelist git tag
+        uses: dmitriysafronov/find-latest-tag@v1.0.0
+        id: whitelist-version
+        with:
+          repo: https://github.com/anudeepND/whitelist.git
+          tag: '^v(.+).(.+)$'
+
+      - name: Save latest OCS git tag to file in repo
+        run: |
+          echo "${{ steps.whitelist-version.outputs.tag }}" > .whitelist-version
+
+      - name: Commit all changed files back to the repository
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automated Update. Docker: ${{ env.UBUNTU_CODENAME }}, Git: ${{ steps.whitelist-version.outputs.tag }}"
+          file_pattern: '.whitelist-version .pihole-version'
