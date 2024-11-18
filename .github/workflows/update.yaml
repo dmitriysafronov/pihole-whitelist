@@ -24,7 +24,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Install jq
-        uses: dcarbone/install-jq-action@v3.0.0
+        uses: dcarbone/install-jq-action@v3.0.1
 
       - name: Get latest Pi-Hole docker tag
         uses: ./.github/actions/get-latest-docker-tag
