@@ -11,18 +11,13 @@ RUN --mount=type=bind,source=.whitelist-version,target=.whitelist-version \
 
 ############################################################
 
-FROM pihole/pihole:2024.01.0 AS runtime
+FROM pihole/pihole:2025.02.1 AS runtime
 
-RUN set -ex && \
-    apt-get update -y && apt-get install --no-install-recommends --no-install-suggests -y \
-        git \
-        python3 \
-    && \
-        apt-get clean && \
-        rm -rf /var/lib/apt/lists/*
-
-COPY ./cron.daily /etc/cron.daily/whitelist
+RUN apk add --no-cache \
+      git \
+      python3
 
 COPY --from=sources /tmp/whitelist/ /opt/whitelist/
 
-RUN chmod a+x /opt/whitelist/scripts/whitelist.py /etc/cron.daily/whitelist
+RUN --mount=type=bind,source=crontab.whitelist,target=crontab.whitelist \
+  cat crontab.whitelist >> /crontab.txt
