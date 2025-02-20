@@ -1,0 +1,1 @@
+00 06 * * * PATH="$PATH:/usr/sbin:/usr/local/bin/" python3 /opt/whitelist/scripts/whitelist.py
