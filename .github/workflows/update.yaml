@@ -23,20 +23,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
 
-      - name: Install jq
-        uses: dcarbone/install-jq-action@v3.0.1
-
-      - name: Get latest Pi-Hole docker tag
-        uses: ./.github/actions/get-latest-docker-tag
-        id: pihole-version
-        with:
-          image: pi-hole/pihole
-          tag: '^[0-9]{1,}.[0-9]{1,}(.+)'
-
-      - name: Save latest Pi-Hole docker tag to file in repo
-        run: |
-          echo "${{ steps.pihole-version.outputs.tag }}" > .pihole-version
-
       - name: Get latest Pi-Hole Whitelist git tag
         uses: dmitriysafronov/find-latest-tag@v1.0.0
         id: whitelist-version
@@ -51,5 +37,5 @@ jobs:
       - name: Commit all changed files back to the repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Automated Update. Docker: ${{ steps.pihole-version.outputs.tag }}, Git: ${{ steps.whitelist-version.outputs.tag }}"
-          file_pattern: '.whitelist-version .pihole-version'
+          commit_message: "Automated Update. Whitelist: ${{ steps.whitelist-version.outputs.tag }}"
+          file_pattern: '.whitelist-version'
