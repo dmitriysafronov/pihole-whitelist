@@ -1,7 +1,3 @@
-ARG PIHOLE_VERSION=2024.01.0
-
-############################################################
-
 FROM curlimages/curl AS sources
 
 RUN --mount=type=bind,source=.whitelist-version,target=.whitelist-version \
@@ -15,7 +11,7 @@ RUN --mount=type=bind,source=.whitelist-version,target=.whitelist-version \
 
 ############################################################
 
-FROM ghcr.io/pi-hole/pihole:${PIHOLE_VERSION} AS runtime
+FROM pihole/pihole:2024.01.0 AS runtime
 
 RUN set -ex && \
     apt-get update -y && apt-get install --no-install-recommends --no-install-suggests -y \
