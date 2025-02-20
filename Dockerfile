@@ -4,15 +4,14 @@ ARG PIHOLE_VERSION=2024.01.0
 
 FROM curlimages/curl AS sources
 
-ARG WHITELIST_VERSION=v2.0.1
-
-RUN set -x \
-		&& rm -rf /tmp/* \
-		&& cd /tmp \
-		&& curl -SL --connect-timeout 8 --max-time 120 --retry 128 --retry-delay 5 "https://github.com/anudeepND/whitelist/archive/refs/tags/${WHITELIST_VERSION}.tar.gz" -o whitelist.tar.gz \
-		&& mkdir -p /tmp/whitelist \
-		&& tar -xf whitelist.tar.gz -C /tmp/whitelist --strip-components=1 \
-		&& rm -rf /tmp/whitelist.tar.gz
+RUN --mount=type=bind,source=.whitelist-version,target=.whitelist-version \
+  export WHITELIST_VERSION=$(cat .whitelist-version) \
+  && rm -rf /tmp/* \
+  && cd /tmp \
+  && curl -SL --connect-timeout 8 --max-time 120 --retry 128 --retry-delay 5 "https://github.com/anudeepND/whitelist/archive/refs/tags/${WHITELIST_VERSION}.tar.gz" -o whitelist.tar.gz \
+  && mkdir -p /tmp/whitelist \
+  && tar -xf whitelist.tar.gz -C /tmp/whitelist --strip-components=1 \
+  && rm -rf /tmp/whitelist.tar.gz
 
 ############################################################
 
