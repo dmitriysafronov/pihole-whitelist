@@ -11,7 +11,7 @@ RUN --mount=type=bind,source=.whitelist-version,target=.whitelist-version \
 
 ############################################################
 
-FROM pihole/pihole:2025.02.3 AS runtime
+FROM pihole/pihole:2024.07.0 AS runtime
 
 RUN apk add --no-cache \
       git \
