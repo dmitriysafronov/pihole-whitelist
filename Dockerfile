@@ -11,7 +11,7 @@ RUN --mount=type=bind,source=.whitelist-version,target=.whitelist-version \
 
 ############################################################
 
-FROM pihole/pihole:2024.01.0 AS runtime
+FROM pihole/pihole:2024.07.0 AS runtime
 
 RUN set -ex && \
     apt-get update -y && apt-get install --no-install-recommends --no-install-suggests -y \
